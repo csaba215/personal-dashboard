@@ -6,10 +6,15 @@ import vueJsx from '@vitejs/plugin-vue'
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: ['resources/css/app.css', 'resources/ts/app.ts'],
             refresh: true,
         }),
         tailwindcss(),
-        vueJsx()
+        vueJsx(),
     ],
+    resolve: {
+        alias: {
+            '@': '/resources/ts',
+        },
+    },
 });
