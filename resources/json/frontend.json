@@ -1,0 +1,22 @@
+{
+    "en": {
+        "token": {
+            "index": {
+                "identifier": "Identifier",
+                "creator": "Creator",
+                "created_at": "Created",
+                "updated_at": "Updated"
+            }
+        }
+    },
+    "hu": {
+        "token": {
+            "index": {
+                "identifier": "Azonosító",
+                "creator": "Létrehozó",
+                "created_at": "Létrehozva",
+                "updated_at": "Frissítve"
+            }
+        }
+    }
+}

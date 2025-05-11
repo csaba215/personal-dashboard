@@ -24,3 +24,4 @@ yarn-error.log
 /_ide_helper.php
 /.phpstorm.meta.php
 /storage/rector/
+/resources/ts/Types/generated.d.ts

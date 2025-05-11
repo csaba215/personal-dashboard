@@ -1,7 +1,10 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
-import vueJsx from '@vitejs/plugin-vue'
+import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
+import path from 'path';
+import { resolve } from 'node:path';
 
 export default defineConfig({
     plugins: [
@@ -10,11 +13,23 @@ export default defineConfig({
             refresh: true,
         }),
         tailwindcss(),
-        vueJsx(),
+        vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
+        vueDevTools({
+            launchEditor: "phpstorm",
+            appendTo: "app.ts",
+        }),
     ],
     resolve: {
         alias: {
-            '@': '/resources/ts',
+            '@': path.resolve(__dirname, './resources/js'),
+            'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
         },
     },
 });
