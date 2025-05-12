@@ -35,4 +35,14 @@ class AuthController extends Controller
             'password' => __('auth.failed'),
         ]);
     }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+
+    }
 }

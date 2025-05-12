@@ -38,7 +38,7 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import { reactive } from 'vue';
 
-defineProps({ errors: Object })
+defineProps({ errors: Object });
 
 const form = reactive({
     email: null,

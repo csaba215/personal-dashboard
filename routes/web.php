@@ -8,6 +8,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
         return Inertia::render('Home');
     })->name('home');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
 
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
