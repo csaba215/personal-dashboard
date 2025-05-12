@@ -1,3 +1,4 @@
+import './bootstrap';
 import { createInertiaApp } from '@inertiajs/vue3';
 import Aura from '@primeuix/themes/aura';
 import PrimeVue from 'primevue/config';
@@ -6,7 +7,6 @@ import { createApp, h } from 'vue';
 import { createI18n } from 'vue-i18n';
 import { ZiggyVue } from 'ziggy-js';
 import messages from '../json/frontend.json';
-import './bootstrap';
 import BaseLayout from './Layouts/BaseLayout.vue';
 
 createInertiaApp({
