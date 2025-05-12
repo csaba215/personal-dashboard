@@ -21,6 +21,5 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'password' => bcrypt('password'),
         ]);
-        GoCardlessToken::factory()->for($user)->create();
     }
 }
