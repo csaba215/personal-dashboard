@@ -3,19 +3,20 @@
 namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
+use Tests\Browser\Pages\LoginPage;
 use Tests\DuskTestCase;
 
 class LoginTest extends DuskTestCase
 {
-    /**
-     * A Dusk test example.
-     */
-    public function test_example(): void
+    public function test_login(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                ->assertSee('E-mail')
-                ->assertSee('Password');
+                ->on(new LoginPage)
+                ->type('@email', 'test@example.com')
+                ->type('@password', 'password')
+                ->press('Login')
+                ->waitForLocation('/', 3);
         });
     }
 }
