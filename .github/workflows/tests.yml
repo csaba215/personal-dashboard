@@ -62,7 +62,7 @@ jobs:
         run: "./vendor/bin/pint -q -n --test"
 
       - name: Test with Larastan
-        run: "./vendor/bin/phpstan --memory-limit 1024M"
+        run: "./vendor/bin/phpstan --memory-limit=1024M"
 
       - name: Typescript Typecheck
         run: "npm run type-check"
