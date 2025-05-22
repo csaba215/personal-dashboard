@@ -37,8 +37,8 @@ jobs:
         && apt-get install nodejs -y"
 
       #can be moved to docker build when using own image
-      - name: setup chromium
-        run: "apt-get install chromium -y"
+      - name: setup chrome
+        run: "curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o google-chrome-stable_current_amd64.deb && dpkg -i google-chrome-stable_current_amd64.deb"
 
       - name: Install Node Dependencies
         run: npm ci
@@ -78,6 +78,9 @@ jobs:
 
       - name: Run Laravel Server
         run: php artisan serve --no-reload &
+
+      - name: migrate and seed database
+        run: php artisan migrate --seed
 
       - name: Tests
         run: php artisan test --log-junit test-results/results.xml
