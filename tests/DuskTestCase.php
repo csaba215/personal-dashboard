@@ -35,9 +35,12 @@ abstract class DuskTestCase extends BaseTestCase
             return $items->merge([
                 '--disable-gpu',
                 '--headless=new',
-                '--no-sandbox',
+            ]);
+        })->when($this->runningInCI(), function (Collection $items) {
+            return $items->merge([
                 '--disable-dev-shm-usage',
                 '--disable-setuid-sandbox',
+                '--no-sandbox',
             ]);
         })->all());
 
@@ -47,5 +50,10 @@ abstract class DuskTestCase extends BaseTestCase
                 ChromeOptions::CAPABILITY, $options
             )
         );
+    }
+
+    protected function runningInCI(): bool
+    {
+        return env('DUSK_RUNNING_IN_CI', false);
     }
 }
