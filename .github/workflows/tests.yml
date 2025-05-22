@@ -31,9 +31,9 @@ jobs:
               && docker-php-ext-install soap zip"
 
       - name: setup npm
-        run: 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash \
+        run: "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash \
         && . ~/.nvm/nvm.sh \
-        && nvm install 24'
+        && nvm install 24"
 
       - name: Install Node Dependencies
         run: npm ci
