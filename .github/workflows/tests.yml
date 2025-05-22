@@ -47,7 +47,7 @@ jobs:
         run: php artisan key:generate
 
       - name: Generate Typescript Types
-        run: typescript:transform
+        run: php artisan typescript:transform
 
       - name: Publish Ziggy Configuration
         run: php artisan ziggy:generate
