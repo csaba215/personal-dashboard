@@ -7,11 +7,12 @@ on:
   push:
     branches:
       - master
+      - ci-test
 
 # Jobs section
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container:
       image: php:8.4-cli-bookworm
     steps:
@@ -62,9 +63,9 @@ jobs:
       - name: Tests
         run: ./vendor/bin/phpunit --log-junit test-results/results.xml
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
-        with:
-          files: |
-            test-results/**/*.xml
+#      - name: Publish Test Results
+#        uses: EnricoMi/publish-unit-test-result-action@v2
+#        if: always()
+#        with:
+#          files: |
+#            test-results/**/*.xml
