@@ -28,7 +28,10 @@ jobs:
       - name: setup
         run: "apt update && apt -y install curl libzip-dev libxml2-dev \
               && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
-              && docker-php-ext-install soap zip"
+              && docker-php-ext-install soap zip  \
+              && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash \
+              && \. \"$HOME/.nvm/nvm.sh\" \
+              && nvm install 24"
 
       - name: Install Node Dependencies
         run: npm ci
