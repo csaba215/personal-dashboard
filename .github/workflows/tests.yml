@@ -1,0 +1,106 @@
+# Action name
+name: Tests
+
+# Here, this action will be enabled on all pushes.
+# Modify this to fit your needs.
+on:
+  push:
+    branches:
+      - master
+      - ci-test
+
+# Jobs section
+jobs:
+  test:
+    runs-on: self-hosted
+    container:
+      image: php:8.4-cli-bookworm
+    steps:
+      - name: 'Cleanup build folder'
+        run: |
+          ls -la ./
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+          ls -la ./
+
+      - uses: actions/checkout@v4
+
+      #can be moved to docker build when using own image
+      - name: setup php and chromium
+        run: "apt update && apt -y install curl libzip-dev libxml2-dev bash chromium \
+              && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
+              && docker-php-ext-install soap zip"
+
+      #can be moved to docker build when using own image
+      - name: setup npm
+        run: "curl -sL https://deb.nodesource.com/setup_24.x | bash - \
+        && apt-get install nodejs -y"
+
+      - name: Install Node Dependencies
+        run: npm ci
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Copy Environment File
+        run: cp .env.ci .env
+
+      - name: Generate Application Key
+        run: php artisan key:generate
+
+      - name: Generate Typescript Types
+        run: php artisan typescript:transform
+
+      - name: Publish Ziggy Configuration
+        run: php artisan ziggy:generate
+
+      - name: Lint using pint
+        run: "./vendor/bin/pint -q -n --test"
+
+      - name: Test with Larastan
+        run: "./vendor/bin/phpstan --memory-limit=1024M"
+
+      - name: Typescript Typecheck
+        run: "npm run type-check"
+
+      - name: Build Assets
+        run: npm run build
+
+      - name: Upgrade Chrome Driver
+        run: php artisan dusk:chrome-driver --detect
+
+      - name: Start Chrome Driver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux --port=9515 &
+
+      - name: Run Laravel Server
+        run: php artisan serve --no-reload &
+
+      - name: migrate and seed database
+        run: php artisan migrate --seed
+
+      - name: Tests
+        run: php artisan test --log-junit test-results/results.xml
+
+      - name: Run Dusk Tests
+        run: php artisan dusk --log-junit test-results/results-dusk.xml
+
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: tests/Browser/screenshots
+
+      - name: Upload Console Logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: console
+          path: tests/Browser/console
+
+#      - name: Publish Test Results
+#        uses: EnricoMi/publish-unit-test-result-action@v2
+#        if: always()
+#        with:
+#          files: |
+#            test-results/**/*.xml
