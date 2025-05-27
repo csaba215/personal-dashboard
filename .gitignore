@@ -25,3 +25,4 @@ yarn-error.log
 /.phpstorm.meta.php
 /storage/rector/
 /resources/ts/Types/generated.d.ts
+/resources/ts/Types/ziggy.d.ts

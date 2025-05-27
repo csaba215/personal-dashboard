@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import path from 'path';
 import { resolve } from 'node:path';
+import { watch } from 'vite-plugin-watch';
 
 export default defineConfig({
     plugins: [
@@ -25,6 +26,15 @@ export default defineConfig({
             launchEditor: "phpstorm",
             appendTo: "app.ts",
         }),
+        watch({
+            pattern: 'app/{Data,Enums}/**/*.php',
+            command: 'php artisan typescript:transform',
+
+        }),
+        watch({
+            pattern: 'routes/**/*.php',
+            command: 'php artisan ziggy:generate --types-only --silent resources/ts/Types/ziggy.js',
+        })
     ],
     resolve: {
         alias: {
