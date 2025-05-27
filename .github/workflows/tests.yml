@@ -51,8 +51,8 @@ jobs:
       - name: Generate Typescript Types
         run: php artisan typescript:transform
 
-      - name: Publish Ziggy Configuration
-        run: php artisan ziggy:generate
+      - name: Generate Ziggy Types
+        run: php artisan ziggy:generate --types-only --silent resources/ts/Types/ziggy.js
 
       - name: Lint using pint
         run: "./vendor/bin/pint -q -n --test"
